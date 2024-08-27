@@ -15,11 +15,6 @@ logging.basicConfig(
 
 # Function to load more movies
 def load_more_movies(driver, target_count):
-    movies_count = len(driver.find_elements(By.CSS_SELECTOR, "div.js-tile-link"))
-    wait_time = (
-        2 + (target_count - movies_count) * 0.1
-    )  # Adjust the wait time based on the remaining movies to load
-
     while True:
         movies_count = len(driver.find_elements(By.CSS_SELECTOR, "div.js-tile-link"))
         if movies_count >= target_count:
@@ -30,7 +25,7 @@ def load_more_movies(driver, target_count):
                 By.CSS_SELECTOR, "div.discovery__actions button"
             )
             load_more_button.click()
-            time.sleep(wait_time)  # Use the dynamic wait time
+            time.sleep(2)  # Wait for the content to load
         except Exception as e:
             logging.info("No more movies to load or error occurred: {}".format(e))
             break
@@ -103,3 +98,4 @@ def scrape_rottentomatoes_movies(target_count):
 if __name__ == "__main__":
     target_count = int(input("Enter the number of movie rows to scrape: "))
     scrape_rottentomatoes_movies(target_count)
+
